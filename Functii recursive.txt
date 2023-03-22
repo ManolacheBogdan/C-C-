@@ -1,0 +1,335 @@
+//Construiţi o funcţie recursivă care calculează aranjamente de n luate cate k.
+#define _CRT_SECURE_NO_WARNINGS_
+#include <iostream>
+using namespace std;
+int fact(int n);
+float aran(int n, int k);
+int main()
+{
+        float n, k, A = 0;
+        cout << "n=";
+        cin >> n;
+        cout << "k=";
+        cin >> k;
+        cout << "Aranjamente de " << n << " luate cate " << k << " este: " << aran(n, k) << endl;
+        A = fact(n) / fact(n - k);
+        cout << "Aranjamente de " << n << " luate cate " << k << " cu verificare este: " << A;
+
+        return 0;
+}
+int fact(int n) {
+        if (n == 0)
+                return 1;
+        else
+                return n * fact(n - 1);
+}
+float aran(int n, int k)
+{
+
+        if (k == 1)
+                return n;
+        else return n * aran(n - 1, k - 1);
+}
+
+
+
+//Construiţi o funcţie recursivă care calculează combinari de n luate cate k.
+#define _CRT_SECURE_NO_WARNINGS_
+#include <iostream>
+using namespace std;
+int fact(int n);
+float comb(float n, float k);
+int main()
+{
+        float n, k, C = 0;
+        cout << "n=";
+        cin >> n;
+        cout << "k=";
+        cin >> k;
+        cout << "Combinari de " << n << " luate cate " << k << " este: " << comb(n, k) << endl;
+        C = fact(n) / (fact(k) * fact(n - k));
+        cout << "Combinari de " << n << " luate cate " << k << " cu verificare este: " << C;
+        return 0;
+}
+int fact(int n) {
+        if (n == 0)
+                return 1;
+        else
+                return n * fact(n - 1);
+}
+float comb(float n, float k)
+{
+
+        if ((n == k) || (n == 0) || (k == 0))
+                return 1;
+        else return (n / (n - k)) * comb(n - 1, k);
+}
+
+
+
+
+
+//Calculul celui mai mare divizor comun a două numere folosind o funcţie recursivă.
+
+#include <iostream>
+using namespace std;
+int cmmdc(int a, int b);
+int main()
+{
+    int a, b;
+    cout << "Introduceti cele doua numere: " << endl;
+    cout << "a= ";
+    cin >> a;
+    cout << endl << "b= ";
+    cin >> b;
+    cout << "Cel mai mare divizor comun a lui " << a << " si " << b << " este: " << cmmdc(a, b);
+    return 0;
+}
+int cmmdc(int a, int b)
+{
+    while (a != b)
+    {
+        if (a > b)
+            return cmmdc(a - b, b);
+        else
+            return cmmdc(a, b - a);
+    }
+}
+
+
+
+
+//Se consideră recursivitatea (seria de medii arimetico-geometrice a lui Gauss):
+//an=(an-1+bn-1)/2 şi
+//bn=sqrt(an-1*bn-1), determinaţi an şi bn, pentru n, a0, b0 introduse de la tastatură.
+
+#define _CRT_SECURE_NO_WARNINGS_
+#include <stdio.h>
+#include <math.h>
+double an(int);
+double bn(int);
+int a0 = 10;
+int b0 = 15;
+int main()
+{
+        int n;
+        printf("n=");
+        scanf("%d", &n);
+        printf("\nAn=  %f", an(n));
+        printf("\nBn=  %f", bn(n));
+}
+double an(int n)
+{
+        if (n > 0)
+                return ((an(n - 1) + bn(n - 1))) / 2;
+        else return a0;
+}
+double bn(int n)
+{
+        if (n > 0)
+                return sqrt(an(n - 1) * bn(n - 1));
+        else return b0;
+}
+
+
+
+
+//Citiţi un şir de caractere de la tastatură, caracter cu caracter, cu ajutorul unei funcţi bazate pe caracter.Afişaţi şirul în ordine inversă folosind o funcţie recursivă.
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+#include <string.h>
+
+void inversare(char[], int);
+
+int main()
+{
+        char s[20], c;
+        int i = 0;
+        printf("Introduceti caracterele: ");
+        scanf("%s", s);
+        printf("\nSirul inversat este: ");
+        inversare(s, strlen(s));
+        return 0;
+}
+
+void inversare(char s[20], int i)
+{
+        if (i == 0)
+                printf("%c", s[0]);
+        else
+        {
+                printf("%c", s[i]);
+                inversare(s, i - 1);
+        }
+}
+
+
+
+
+//Determinaţi printr-o funcţie recursivă produsul scalar al doi vectori (tablouri unidimensionale de aceiasi lungime).
+
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+#include <malloc.h>
+void citire(int*, int);
+float produs(int*, int*, int);
+int main()
+{
+        int n, * v1, * v2;
+        printf("Introduceti lungimea vectorilor: ");
+        scanf("%d", &n);
+        v1 = (int*)malloc(n * sizeof(int));
+        v2 = (int*)malloc(n * sizeof(int));
+        printf("Introduceti primul vector:");
+        citire(v1, n);
+        printf("Introduceti al doilea vector:");
+        citire(v2, n);
+
+        printf("\nProdusul scalar este: %f", produs(v1, v2, n - 1));
+        return 0;
+}
+
+void citire(int* v, int n)
+{
+        for (int i = 0; i < n; i++)
+        {
+                printf("\nv[%d]= ", i + 1);
+                scanf("%d", &v[i]);
+        }
+}
+
+float produs(int* v1, int* v2, int n)
+{
+        if (n == 0)
+                return 0;
+        else
+                return v1[n] * v2[n] + produs(v1, v2, n - 1);
+
+}
+
+
+
+
+
+//Considerati un sir de n (<=30) de valori �ntregi. Determinati �n mod recursiv si nerecursiv numarul de apari.ii �n .ir ale unei valori �ntregi x cititite de la tastatura.
+//nerecursiv
+
+#define _CRT_SECURE_NO_WARNINGS_
+#include <iostream>
+using namespace std;
+int aparitii(int, int);
+int v[30];
+int main()
+{
+        int n, x;
+        cout << "Cate elemente are sirul?" << endl << "n= ";
+        cin >> n;
+        cout << "Valoarea cautata este: ";
+        cin >> x;
+        cout << "Elemntele sirului sunt: ";
+        for (int i = 1; i <= n; i++)
+        {
+                cout << "v[" << i << "]=";
+                cin >> v[i];
+        }
+        cout << "Numarul de aparitii in sir a lui " << x << " este:" << aparitii(n, x);
+}
+int aparitii(int n, int x)
+{
+        int k = 0;
+        for (int i = 1; i <= n; i++)
+        {
+                if (v[i] == x)
+                        k++;
+        }
+        return k;
+}
+
+
+
+
+//Considerați un șir de n (<=30) de valori întregi. Determinați în mod recursiv și nerecursiv numărul de apariții în șir ale unei valori întregi x cititite de la tastatură.
+//recursiv
+
+#define _CRT_SECURE_NO_WARNINGS_
+#include <iostream>
+using namespace std;
+int aparitii(int, int);
+int v[30];
+int main()
+{
+        int n, x;
+        cout << "Cate elemente are sirul?" << endl << "n= ";
+        cin >> n;
+        cout << "Valoarea cautata este: ";
+        cin >> x;
+        cout << "Elemntele sirului sunt: ";
+        for (int i = 1; i <= n; i++)
+        {
+                cout << "v[" << i << "]=";
+                cin >> v[i];
+        }
+        cout << "Numarul de aparitii in sir a lui " << x << " este:" << aparitii(n, x);
+}
+int aparitii(int n, int x)
+{
+        if (n == 0) return 0;
+        else if (v[n] == x)
+                return 1 + aparitii(n - 1, x);
+        else return aparitii(n - 1, x);
+
+
+}
+
+
+
+
+//Scrieți un program care să calculeze în mod recursiv și în mod nerecursiv valoarea seriei armonice sn = 1 / 1 + 1 / 2 + 1 / 3 + …1 / n, unde n este un număr natural, cu două funcții diferite. Apelați cele două funcții cu diferite valori ale lui n.
+//nerecursiv
+
+#define _CRT_SECURE_NO_WARNINGS_
+#include<iostream>
+using namespace std;
+float suma(int n);
+int main()
+{
+        int n;
+        cout << "n=";
+        cin >> n;
+        cout << "Valoarea seriei armonice este: " << suma(n);
+        return 0;
+}
+float suma(int n)
+{
+        float suma = 0;
+        for (int i = 1; i <= n; i++)
+                suma += 1.0 / i;
+        return suma;
+}
+
+
+
+
+
+//Scrieți un program care să calculeze în mod recursiv și în mod nerecursiv valoarea seriei armonice sn = 1 / 1 + 1 / 2 + 1 / 3 + …1 / n, unde n este un număr natural, cu două funcții diferite. Apelați cele două funcții cu diferite valori ale lui n.
+//recursiv
+
+
+#define _CRT_SECURE_NO_WARNINGS_
+#include<iostream>
+using namespace std;
+float suma(int n);
+int main()
+{
+        int n;
+        cout << "n=";
+        cin >> n;
+        cout << "Valoarea seriei armonice este: " << suma(n);
+        return 0;
+}
+float suma(int n)
+{
+        if (n == 0) return 0;
+        else return suma(n - 1) + 1.0 / n;
+}
+

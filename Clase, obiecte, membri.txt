@@ -1,0 +1,424 @@
+﻿//Să se scrie o aplicaţie C/C++ care foloseşte o structură de date cu numele Scerc care conţine raza ca şi o variabilă de tip întreg. Într-un program C/C++, declaraţi două variabile c1, c2 de tip Scerc şi calculaţi aria şi circumferinţa lor pentru valori ale razei introduse de la tastatură cu două metode definite. Aceleaşi cerinţe vor fi implementate în aceiasi aplicaţie folosind o clasă numită Cerc cu atributul raza de tip private, clasă ce va conţine pe lângă metodele de calcul ale ariei şi perimetrului un constructor explicit cu parametru, un destructor şi o metodă de afişare raza.
+//Extindeţi aplicaţia astfel încât să definiţi mai multe obiecte de tip Cerc la care să accesaţi metodele specifice folosind obiectele instanţiate, pointeri la obiecte, referinţe la obiecte.Introduceţi o metodă de tip accesor, getRaza() care permite accesul la data privată raza si care sa o folositi pentru a afisa in main() raza obiectelor.
+
+#define _CRT_SECURE_NO_WARNINGS
+#include <iostream>
+#include <fstream>
+#include <cstdlib>
+using namespace std;
+double arie_cerc(double x);
+double lungime_cerc(double x);
+struct Scerc
+{
+    int raza;
+};
+class Cerc
+{
+private:
+    int r; // raza;
+public:
+    int  initRaza(int x);
+    int arie_clasa()
+    {
+        return 3.14f * r * r;
+    }
+    int lungime_clasa()
+    {
+        return 2 * 3.14f * r;
+    }
+
+};
+int Cerc::initRaza(int x)
+{
+    if (x > 0)
+    {
+        r = x;
+        return 0;
+    }
+    else r = 0;
+    return 0;
+}
+
+int main()
+{
+    struct Scerc c1, c2;
+    cout << endl << "Calculam aria si lungimea cu ajutorul structurii:  " << endl;
+    cout << "Introduceti raza primului cerc : ";
+    cin >> c1.raza;
+    cout << "Aria este : " << arie_cerc(c1.raza) << endl;
+    cout << "Lungimea este :" << lungime_cerc(c1.raza) << endl;
+    cout << endl;
+    cout << "Introduceti raza celui de al doilea cerc : ";
+    cin >> c2.raza;
+    cout << "Aria este : " << arie_cerc(c2.raza) << endl;
+    cout << "Lungimea este :" << lungime_cerc(c2.raza) << endl;
+    cout << endl << "Calculam aria si lungimea cu ajutorul clasei:  " << endl;
+    Cerc obiect1;
+    cout << " Lungimea razei pentru primul obiect este : ";
+    obiect1.initRaza(5);
+    cout << "Aria pentru obiectul 1 este : " << obiect1.arie_clasa();
+    cout << endl << "Lungimea pentru obiectul 1 este : " << obiect1.lungime_clasa();
+    cout << endl;
+    return 0;
+}
+double arie_cerc(double r)
+{
+    return 3.14f * r * r;
+}
+double lungime_cerc(double r)
+{
+    return 3.14f * 2 * r;
+}
+
+
+
+
+//Să se definească o clasă numită myString (într-un fişier numit strClass.h) care să fie compusă din metodele specifice care efectuează următoarele operaţii pe şiruri de caractere:
+//- determină lungimea şirului primit la intrare.
+//- determină ultima poziţie de apariţie a unui anumit caracter din şirul de intrare.
+//- returnează şirul primit la intrare, scris cu caractere majuscule.
+//- returnează şirul primit la intrare, scris cu caractere minuscule.
+//- returnează numărul de apariţii ale unui anumit caracter din şirul primit.
+
+#ifndef MYSTRING_H
+#define MYSTRING_H
+#define _CRT_SECURE_NO_WARNINGS
+#include <iostream>
+#include <cstring>
+using namespace std;
+
+class myString
+{
+public:
+    char sir[17] = "ManolacheBogdan";
+
+    void afisareLungime()
+    {
+        cout << "Lungimea sirului : " << endl;
+        cout << strlen(sir) << endl;
+    }
+    int aparatielitera()
+    {
+        char x, k = 0;
+        cout << endl << "Da-ti litera cautata :";
+        cin >> x;
+        for (int i = 0; i < 16; i++)
+        {
+            if (sir[i] == x)
+            {
+                cout << i << endl;
+                k++;
+            }
+        }
+        cout << endl << "Caracterul " << x << "apare de " << k << "ori";
+        return 0;
+    }
+    void majuscule()
+    {
+        for (int i = 0; i < 15; i++)
+        {
+            if (sir[i] <= 'z' && sir[i] >= 'a')
+            {
+                sir[i] = sir[i] - 32;
+                cout << sir[i];
+            }
+            else cout << sir[i];
+        }
+    }
+    void minuscule()
+    {
+        for (int i = 0; i < 15; i++)
+        {
+            if (sir[i] <= 'Z' && sir[i] >= 'A')
+            {
+                sir[i] = sir[i] + 32;
+                cout << sir[i];
+            }
+            else cout << sir[i];
+        }
+    }
+    void nraparitii()
+    {
+        int contor = 0;
+        char y;
+        cout << "Introduceti caracterul cautat: ";
+        cin >> y;
+        for (int i = 0; i < 11; i++)
+        {
+            if (sir[i] == y);
+            contor++;
+        }
+        cout << contor << endl;
+    }
+
+};
+int main()
+{
+    myString obiect1;
+    obiect1.afisareLungime();
+    cout << endl << "Textul in minuscule: ";
+    obiect1.minuscule();
+    cout << endl << "Textul in majuscule: ";
+    obiect1.majuscule();
+    cout << endl << "Numarul de aparitii a literei citite: ";
+    obiect1.aparatielitera();
+
+
+
+    return 0;
+}
+
+
+﻿﻿
+
+//Să se definească o clasă care implementează metodele:
+- int plus(int x, int y), care returnează suma valorilor primite la apelul metodei;
+- int minus(int x, int y), care returnează diferenta valorilor primite la apelul metodei;
+- int inmultit(int x, int y), care returnează produsul valorilor primite la apelul metodei;
+- float impartit(int x, int y), care returnează catul valorilor primite la apelul metodei;
+şi apoi să se scrie aplicaţia care utilizează această clasă. Considerati si cazul in care in cadrul clasei aveti atributele de tip int x si y, caz in care metodele nu vor mai avea parametrii.
+
+#include <iostream>
+#include <cstdlib>
+#include <cstring>
+#include <cmath>
+using namespace std;
+
+class Calculator
+{
+private:
+    int termen1, termen2;
+public:
+    void setare_termen1(int x)
+    {
+        termen1 = x;
+
+    }
+    void setare_termen2(int y)
+    {
+        termen2 = y;
+
+    }
+    void plus()
+    {
+        int S = 0;
+        S = termen1 + termen2;
+        cout << "Suma este : " << S << endl;
+
+    }
+    void minus()
+    {
+        cout << "Diferenta este :" << termen1 - termen2 << endl;
+    }
+    void inmultit()
+    {
+        cout << "Inmultirea celor doua numere este : " << termen1 * termen2 << endl;
+    }
+    float impartit()
+    {
+        if (termen2 != 0)
+            cout << "Impartirea lor este : " << termen1 / termen2 << endl;
+        else
+            cout << "Impartire la zero -> Eroare !";
+        return 0;
+    }
+};
+int main()
+{
+    Calculator termen;
+    termen.setare_termen1(40);
+    termen.setare_termen2(50);
+    cout << "Apelam metoda de adunare: " << endl;
+    termen.plus();
+    cout << endl;
+    cout << "Apelam metoda de scadere: " << endl;
+    termen.minus();
+    Calculator obiect2;
+    obiect2.setare_termen1(35);
+    obiect2.setare_termen2(500);
+    cout << "Initializam in alt obiect, doua numere, 35 si 500" << endl;
+    obiect2.inmultit();
+    cout << endl;
+    cout << "Initializam alt obiect cu numerele 100 si 0" << endl;
+    Calculator obiect3;
+    obiect3.setare_termen1(100);
+    obiect3.setare_termen2(0);
+    obiect3.impartit();
+
+
+    return 0;
+}
+
+
+
+
+//Să se creeze o clasă care să modeleze numerele complexe. Scrieţi un program care utilizează această clasă si defineste doua obiecte afisand caracteristicile obiectelor si rezultatele operatiilor definite (Folositi exemplul 3 cu rezultat in obiectul curent).
+
+#include <iostream>
+#include <cmath>
+using namespace std;
+class complexe
+{
+    int im, re;
+public:
+    int initIm(int a)
+    {
+        im = a;
+        return 0;
+    }
+    int initRe(int b)
+    {
+        re = b;
+        return 0;
+    }
+    double returnaremodul()
+    {
+        return sqrt(im * im + re * re);
+    }
+
+};
+int main()
+{
+    complexe c1, c2;
+    cout << "Initializam primul numarul complex cu partea imaginara =4, si partea reala =5; ";
+    c1.initIm(4);
+    c1.initRe(5);
+    cout << endl;
+    cout << "Modulul numarului complex c1 este : ";
+    cout << c1.returnaremodul();
+    cout << endl;
+    cout << "Initializam al doilea numar complex cu partea imaginara =12, si partea real =7; ";
+    c2.initIm(12);
+    c2.initRe(7);
+    cout << endl;
+    cout << "Modulul numarului complex c2 este : ";
+    cout << c2.returnaremodul();
+    cout << endl;
+
+    return 0;
+}
+
+
+
+
+//Să se scrie un program care implementează clasa Aritmetica cu două atribute a și b de tip numeric (int, float sau double) si metode setter si getter adecvate. Implementați metoda suma() în interiorul clasei și metoda diferenta() ce apartine de asemenea clasei, dar e definita în afara clasei, metode care vor fi apelate prin intermediul unui obiect al clasei Aritmetica. În funcția principală main() instanțiați trei obiecte de tip Aritmetica. Modificati atributele a si b la fiecare obiect in parte folsind metodele de tip setter. Aplicați asupra lor operațiile de adunare și scădere pe care le - ați implementat prin metodele suma() și diferenta().Metodele returneaza valorile numerice corespunzatoare operatiei folosind cele doua atribute ale clasei valori ce le veti afisa in main().La fiecare grup de operatii adunare / scadere afisati valorile atributelor obiectului folosind metodele de tip getter.
+#include <iostream>
+using namespace std;
+class Aritmetica
+{
+private:
+    float a, b;
+public:
+    void set_a(int x)
+    {
+        a = x;
+        cout << endl;
+    }
+    void set_b(int y)
+    {
+        b = y;
+        cout << endl;
+    }
+    void suma()
+    {
+        cout << "Suma numerelor este : " << a + b << endl;
+    }
+    void diferenta()
+    {
+        cout << "Diferenta numerelor este : " << a - b << endl;
+    }
+};
+int main()
+{
+    Aritmetica obiect1, obiect2, obiect3;
+    Aritmetica* p1;
+    p1 = &obiect1;
+    p1->set_a(5);
+    p1->set_b(8);
+    p1->suma();
+    p1->diferenta();
+    Aritmetica* p2;
+    p2 = &obiect2;
+    cout << "Folosim al doilea obiect initializat : " << endl;
+    p2->set_a(100);
+    p2->set_b(20);
+    p2->suma();
+    p2->diferenta();
+    Aritmetica* p3;
+    p3 = &obiect3;
+    cout << "Folosim al treilea obiect initializat : " << endl;
+    p3->set_a(125);
+    p3->set_b(115);
+    p3->suma();
+    p3->diferenta();
+
+    return 0;
+}
+
+
+
+
+
+//Declarati o clasa Fractie care are doua atribute intregi de tip private a si b pentru numarator si numitor. Definiti doua metode de tip set() respectiv get() pentru fiecare din atributele clasei. Instantiati doua obiecte de tip Fractie si afisati atributele initiale si cele obtinute dupa folosirea metodelor set(). Definiti o metoda simplifica() apelata cu un obiect pentru care au fost apelate metodele de tip set(), care determina divizorii numitorului si numaratorului, ii afiseaza si realizeaza simplificarea fractiei, afisand in metoda si rezultatul obtinut (noua fractie numarator/numitor).
+#include <iostream>
+#include <cstring>
+using namespace std;
+class Fractie
+{
+private:
+    int a, b;
+public:
+    void setare_a(int x)
+    {
+        a = x;
+    }
+    void setare_b(int y)
+    {
+        b = y;
+    }
+    int gettera()
+    {
+        return a;
+    }
+    int getterb()
+    {
+        return b;
+    }
+    void simplifica()
+    {
+        cout << "Divizorii lui a sunt : " << endl;
+        for (int i = 1; i <= a; i++)
+        {
+            if (a % i == 0)
+                cout << i << endl;
+        }
+        cout << endl;
+        cout << "Divizorii lui b sunt : " << endl;
+        for (int j = 1; j < b; j++)
+        {
+            if (b % j == 0)
+                cout << j << endl;
+        }
+        int x, y;
+        x = a;
+        y = b;
+        while (x != y)
+        {
+            if (x > y)
+                x = x - y;
+            else
+                y = y - x;
+        }
+        cout << "Fractia inainte de simplificare este : " << a << "/" << b << endl;
+        cout << "Fractia inainte de simplificare este : " << a / x << "/" << b / x << endl;
+    }
+
+};
+int main()
+{
+    Fractie obiect1;
+    obiect1.setare_a(70);
+    obiect1.setare_b(210);
+    obiect1.simplifica();
+    return 0;
+}

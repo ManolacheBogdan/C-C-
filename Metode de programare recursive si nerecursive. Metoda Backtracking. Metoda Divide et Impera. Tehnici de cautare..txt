@@ -1,0 +1,168 @@
+﻿//Creaţi un fişier în care stocaţi un şir de numere întregi, generate in mod aleator. Preluaţi prin program aceste valori. 
+Folosiţi metoda divide et impera pentru a determina minimul şi maximul din şir şi afisaţi rezultatele pe ecran. Actualizaţi fişierul iniţial adăugând aceste două valori.
+#define _CRT_SECURE_NO_WARNINGS
+#include<stdio.h>
+#include<time.h>
+#include<stdlib.h>
+
+int min(int*, int);
+int max(int*, int);
+void main()
+{
+        FILE* f;
+        int n,i, v[100], * p;
+        char fisier[100];
+        p = &v[0];
+        srand(time(0));
+        printf("Lungimea sirului este: ");
+        scanf("%d", &n);
+        for (i = 0; i < n; i++)
+        {
+                *(p + i) = rand() % 100;
+        }
+        printf("\nNumele fisierului este: ");
+        scanf("%s", &fisier);
+        f = fopen(fisier, "w");
+        if (f == NULL)
+        {
+                printf("Eroare la deschiderea fisierului!");
+        }
+        fprintf(f, "Introduceti sirul: ");
+                for (i = 0; i < n; i++)
+                {
+                        fprintf(f, "%d ", *(p + i));
+                }
+        fclose(f);
+        printf("\nValoarea minima este: %d", min(p, n));
+        printf("\nValoarea maxima este: %d", max(p, n));
+        f = fopen(fisier, "a");
+        if (f == NULL)
+        {
+                printf("Eroare la deschiderea fisierului!");
+        }
+    fprintf(f, "\nValoarea minima este %d", min(p, n));
+        fprintf(f, "\nValoarea maxima este %d", max(p, n));
+}
+int min(int* p, int n)
+{
+        if (n > 0)
+        {
+                if (*(p + n - 2) > *(p + n - 1))
+                        *(p + n - 2) = *(p + n - 1);
+                min(p, n - 1);
+        }
+        return *p;
+}
+int max(int* p, int n)
+{
+        if (n > 1)
+        {
+                if (*(p + n - 2) < *(p + n - 1))
+                        *(p + n - 2) = *(p + n - 1);
+                max(p, n - 1);
+        }
+        return *p;
+}
+
+
+
+//Scrieţi o aplicaţie care determină c.m.m.d.c. dintr-un tablou unidimensional de numere întregi (max. 2000 de valori), utilizând metoda divide et impera. Elementele tabloului se pot citi de la tastatură sau dintr-un fisier.
+
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+#include <conio.h>
+#define DIM 2000
+int cmmdc(int a, int b, int v[DIM]);
+int main()
+{
+    int n, v[DIM];
+    printf("\nIntroduceti numarul de valori din tablou: ");
+    scanf("%d", &n);
+    printf("\nElementele tabloului unidimensional sunt: ");
+    for (int i = 1; i <= n; i++)
+    {
+        printf("\nv[%d]=", i);
+        scanf("%d", &v[i]);
+    }
+    printf("Cel mai mare divizor comun al elementelor din tablou este: %d", cmmdc(1, n, v));
+    return 0;
+}
+int cmmdc(int a, int b, int v[DIM])
+{
+    int c, x, y;
+    if (a == b) return v[a];
+    else
+    {
+        c = (a + b) / 2;//divide et impera
+        x = cmmdc(a, c, v);
+        y = cmmdc(c + 1, b, v);
+        while (x != y)
+        {
+            if (x > y)
+                x = x - y;
+            else
+                y = y - x;
+        }
+        return x;
+    }
+}
+
+
+
+
+//Să se calculeze ∫ab 1/(1+x^2)dx, cu ajutorul metodei trapezelor, astfel încât inălţimea fiecărui trapez a cărui arie se însumează să fie mai mică decât ε=0.0001. Aria trapezului cu vârfurile în punctele (a,0), (b,0), (a,f(a)) şi (b,f(b)) este (b-a)*(f(a)+f(b))/2, iar f(x)=1/(1+x2). Se citesc de la tastatură numerele reale a şi b, a≤b. Utilizaţi metoda divide et impera.
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+#include <conio.h>
+float functie(float x);
+float integrala(float a, float b);
+void main()
+{
+        float a, b;
+        printf("Valoarea lui a este: ");
+        scanf("%f", &a);
+        printf("\nValoarea lui b este: ");
+        scanf("%f", &b);
+        printf("\nValoarea integralei este: %f", integrala(a, b));
+        _getch();
+}
+float functia(float x)
+{
+        return (1 / (1 + x * x));
+}
+float integrala(float a, float b)
+{
+        float c;
+        double e = 0.0001;
+        if ((b - a) > e)//daca inaltimea este < e
+        {
+                c = (a + b) / 2;
+                return integrala(a, c) + integrala(c, b);
+        }
+        else return (b - a) * (functia(a) + functia(b)) / 2;
+}
+
+
+
+
+//Să se scrie o aplicație C/C++ care să genereze aleator maxim 10 valori întregi, ce vor fi memorate într-un tablou unidimensional. Să se verifice dacă o altă valoare generată aleator aparține acestui tablou, utilizând funcția _lsearch().
+
+#define _CRT_SECURE_NO_WARNINGS
+#include <time.h>
+#include <iostream>
+using namespace std;
+int findelem(int** x, int** v, int n);
+int cmp(int* v, int x);
+int main() {
+        int v[10], n = 10;
+        int result;
+        for (int i = 0; i < 10; i++) {
+                v[i] = rand() % 50 + 1;
+        }
+        for (int i = 0; i < n; i++) {
+                cout << "Elementul " << i + 1 << " este: " << v[i] << endl;
+        }
+        int x = rand() % 50 + 1;
+        cout << "Elementul random este: " << x << endl;
+        return 0;
+}

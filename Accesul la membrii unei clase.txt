@@ -1,0 +1,275 @@
+//Să se scrie o aplicaţie C++ care implementează o clasă numită PilotF1. Clasa definește variabilele private nume (șir de caractere), echipa (șir de caractere), varsta (int), record (int), nr_pole_position (int). Ca membri publici, clasa conține metode accesor/getter și mutator/setter distincte pentru fiecare din atributele clasei.
+//In functia main(), să se creeze 3 instanțe distincte ale clasei PilotF1 și să se folosească metodele mutator / setter pentru a inițializa datele din fiecare obiect cu informația corespunzătoare citită de la tastatură.Folosind metodele accesor / getter, să se afișeze toate datele pilotului cu cel mai bun record.
+#define _CRT_SECURE_NO_WARNINGS
+#include <iostream>
+#include <fstream>
+#include <cstdlib>
+#include <cmath>
+#include <cstring>
+using namespace std;
+class pilotF1
+{
+    char nume[30];
+    char echipa[10];
+    int varsta;
+    int nr_pole_position;
+public:
+    int record;
+    int set_nume(char x[30])
+    {
+        strcpy(nume, x);
+        return 0;
+    }
+    int getnume()
+    {
+        for (int i = 0; i <= 30; i++)
+            if (nume[i] == '\0')
+                return 0;
+            else    cout << nume[i];
+    }
+    int set_echipa(char y[30])
+    {
+        strcpy(echipa, y);
+        return 0;
+    }
+    int getechipa()
+    {
+        for (int i = 0; i <= 30; i++)
+            if (echipa[i] == '\0')
+                return 0;
+            else cout << echipa[i];
+    }
+    int set_varsta(int b)
+    {
+        varsta = b;
+        return 0;
+    }
+    int set_record(int a)
+    {
+        record = a;
+        return 0;
+    }
+    int set_poleposition(int c)
+    {
+        nr_pole_position = c;
+        return 0;
+    }
+};
+int main()
+{
+    pilotF1 sofer[3];
+    char sirnume[100];
+    char sirechipa[100];
+    int var;
+    int rec;
+    int pos;
+    for (int i = 1; i <= 3; i++)
+    {
+        cout << "Introdce-mi numele soferului " << i << endl;
+        cin >> sirnume;
+        sofer[i].set_nume(sirnume);
+        cout << "Introduce-mi echipa soferului " << i << endl;
+        cin >> sirechipa;
+        sofer[i].set_echipa(sirechipa);
+        cout << endl;
+        cout << "Introduce-mi varsta soferului " << i << endl;
+        cin >> var;
+        sofer[i].set_varsta(var);
+        cout << endl;
+        cout << "Introduce-mi recordul soferului " << i << endl;
+        cin >> rec;
+        sofer[i].set_record(rec);
+        cout << endl;
+        cout << "Introduce-mi pole position-ul soferului " << i << endl;
+        cin >> pos;
+        sofer[i].set_poleposition(pos);
+        cout << endl;
+    }
+    int contor = 0;
+    for (int i = 1; i <= 3; i++)
+    {
+        if (sofer[i].record > contor)
+            contor = sofer[i].record;
+    }
+    cout << "Recordul absolut este" << contor;
+    for (int i = 1; i <= 3; i++)
+    {
+        if (sofer[i].record == contor)
+        {
+            cout << "Numele omului cu record: " << endl;
+            sofer[i].getnume();
+            cout << "Echipa omului cu record: " << endl;
+            sofer[i].getechipa();
+            return 0;
+        }
+
+    }
+    return 0;
+}
+
+
+
+//Să se modifice exemplul 2 astfel încât codul să poată fi lansat în execuție considerand atributul clasei private.
+#define _CRT_SECURE_NO_WARNINGS
+#include <iostream>
+using namespace std;
+class Test2 {
+    int x;
+public:
+    Test2() {
+        cout << "\nApel constructor explicit vid.";
+        x = 0;
+        //initializarea variabilei din clasa cu o valoare implicita
+    }
+
+    //metoda care modifica variabila x din clasa - private
+    void setX(int a) {
+        x = a;
+    }
+    //metoda care returneaza valoarea variabilei private x
+    int getX() {
+        return x;
+    }
+};
+int main() {
+    Test2 ob1; //instantiere posibila, constructorul este public!
+    int a;
+    cout << "\nIntroduceti valoarea variabilei de tip \"int\" din clasa: ";
+    cin >> a;
+    ob1.setX(a);
+    cout << "\nValoarea de tip \"int\" stocata in clasa si returnata de metoda accesor este: " <<
+        ob1.getX() << endl;
+
+}
+
+
+
+
+//Să se scrie o aplicaţie C++ care implementează o clasă numită Triunghi. Clasa cuprinde atributele private pentru laturile a, b, c, un constructor cu parametrii, metode setter si getter adecvate. Calculați aria și perimetrul prin metode specifice clasei. Scrieți o metodă care să indice dacă triunghiul este dreptunghic sau nu. Definiti o metoda private cu parametrii in clasa care permite verificarea condiției ca laturile să formeze un triunghi. Ea va fi folosita si de metodele setter.
+#define _CRT_SECURE_NO_WARNINGS
+#include <iostream>
+#include <math.h>
+using namespace std;
+class Triunghi {
+private:
+        int a, b, c;
+public:
+        
+        void set_a(int x) {
+                a = x;
+        }
+        int get_a()
+        {
+                return a;
+        }
+        
+        
+        void set_b(int y) {
+                b = y;
+        }
+        int get_b()
+        {
+                return b;
+        }
+        void set_c(int z) {
+                c = z;
+        }
+        int get_c()
+        {
+                return c;
+        }
+        void arie()
+        {
+                int p;
+                p = (a + b + c) / 2;
+                cout << "Aria triunghiului este: " << sqrt(p * (p - a) * (p - b) * (p - c)) << endl;
+        }
+        void perimetru()
+        {
+                cout << "Perimetrul triunghiului este: " << a + b + c << endl;
+        }
+        void tr_drept()
+        {
+                if (a = sqrt(b * b + c * c)) cout << "Triunghiul este dreptunghic!";
+                else cout << "Triunghiul nu este dreptunghic!";
+        }
+};
+int main()
+{
+        Triunghi obiect1;
+        obiect1.set_a(5);
+        obiect1.set_b(4);
+        obiect1.set_c(3);
+        obiect1.arie();
+        obiect1.perimetru();
+        cout << endl << "Verificati daca triunghiul este dreptunghic: ";
+        obiect1.tr_drept();
+}
+
+
+
+
+//Să se scrie clasa Seif, cu atributele private cifru și suma. Descrieți metodele private getSuma() și setSuma( ) și metodele publice puneInSeif( ) și scoateDinSeif( ) cu care să accesați suma de bani care se află în seif. Metoda puneInSeif( ) poate apela getSuma() și setSuma( ), metoda scoateDinSeif( ) poate apela getSuma( ) și setSuma( ). Instanțiați obiecte din clasa Seif, iar metodele puneInSeif( ) și scoateDinSeif( ) vor putea accesa suma doar dacă parametrul de tip cifru utilizat corespunde obiectului instanțiat. În caz de diferență de cifru, se va da un mesaj.
+#define _CRT_SECURE_NO_WARNINGS
+#include <iostream>
+#include <cstdlib>
+using namespace std;
+class Seif
+{
+private:
+    int cifru, suma;
+    void set_Suma(int x)
+    {
+        suma = x;
+    }
+    void set_Cifru(int y)
+    {
+        cifru = y;
+    }
+
+public:
+    void puneInSeif(int k)
+    {
+        set_Suma(250);
+        suma = suma + k;
+    }
+    void scoateDinSeif(int p)
+    {
+        suma = suma - p;
+    }
+    int getSuma()
+    {
+        return suma;
+    }
+    void setareCifru(int x)
+    {
+        set_Cifru(x);
+    }
+
+};
+int main()
+{
+    int y = 9876;
+    Seif obiect1;
+    obiect1.setareCifru(y);
+    //cout<<x;
+    int cif;
+    cout << "Introduceti cifrul : " << endl;
+    cin >> cif;
+    if (cif == y)
+
+    {
+        cout << "Cifru ok";
+        obiect1.puneInSeif(100);
+        obiect1.scoateDinSeif(50);
+    }
+    else
+    {
+        cout << "Cifru gresit!" << endl;
+        main();
+    }
+    cout << endl;
+    cout << obiect1.getSuma();
+    return 0;
+}
+

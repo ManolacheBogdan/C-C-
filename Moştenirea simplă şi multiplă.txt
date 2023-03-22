@@ -1,0 +1,588 @@
+﻿//Implementaţi programul prezentat în exemplul 3 şi examinaţi eventualele erori date la compilare daca exista 
+//prin eliminarea comentariilor. Modificaţi programul astfel încât să se poată accesa din funcţia main( ),
+// prin intermediul obiectului obiect_derivat, şi metodele aduna( ) şi scade( ) din clasa de baza pastrand 
+//mostenirea de tip private.
+
+#include <iostream>
+class Baza {
+protected: int a, b;
+public:
+        Baza(int x, int y) : a(x), b(y)
+        {}
+        Baza() { a = 1, b = 1; }
+        void setA(int a) {
+                this->a = a;
+        }
+        void setB(int b) {
+                this->b = b;
+        }
+        const int getA() const
+        {
+                return a;
+        }
+        const int getB() const
+        {
+                return b;
+        }
+        int aduna() {
+                return a + b;
+        }
+        int scade() {
+                return a - b;
+        }
+};
+class Derivata : private Baza
+{
+public:
+        int inmulteste() {
+                return a * b;
+        }
+        int scadere()
+        {
+                scade();
+                return 0;
+        }
+        int setareA(int x)
+        {
+                setA(x);
+                return 0;
+        }
+        int setareB(int y)
+        {
+                setB(y);
+                return 0;
+        }
+
+
+};
+
+int main()
+{
+        Baza obiect_baza(7, 1);
+        std::cout << "\nAfis din baza (val. initiale): " << obiect_baza.getA() << " " << obiect_baza.getB() << '\n';
+        std::cout << "\nSuma este (cu val. initiale, baza) = " << obiect_baza.aduna();
+        std::cout << "\nDiferenta este (cu val. initiale, baza) = " << obiect_baza.scade();
+
+        obiect_baza.setA(2);
+        obiect_baza.setB(3);
+        std::cout << "\nAfis din baza (modificat): " << obiect_baza.getA() << " " << obiect_baza.getB() << '\n';
+        std::cout << "\nSuma/Diferenta dupa setare= " << obiect_baza.aduna() << "/" <<
+                obiect_baza.scade() << '\n';
+        Derivata obiect_derivat;
+        std::cout << "\nProdusul este (din derivat cu val. initiale) = " << obiect_derivat.inmulteste() << '\n';
+        std::cout << "Aplicam o modificare!" << std::endl;
+        obiect_derivat.setareA(100);
+        obiect_derivat.setareB(50);
+
+        std::cout << obiect_derivat.scadere();
+        return 0;
+}
+
+
+
+
+//Să se implementeze o clasă de bază cu două atribute protected de tip întreg care conţine o metoda mutator 
+pentru fiecare atribut al clasei, parametri metodelor fiind preluati in main() de la tastatura şi metode 
+accesor pentru fiecare atribut care returneaza atributul specific. Să se scrie o a doua clasă, derivată din 
+aceasta, care implementează operaţiile matematice elementare: +, -, *, / asupra atributelor din clasa de bază,
+rezultatele fiind memorate in doua atribute protected int (plus, minus) si in alte doua atribute protected 
+double (mul, div) declarate in clasa. Să se scrie o a III-a clasă, derivată din cea de-a doua, care 
+implementează în plus o metoda pentru extragerea rădăcinii pătrate dintr-un număr ( mul, rezultat al operatiei * din prima clasa derivata) şi de ridicare la putere (atât baza (plus, rezultat al operatiei + din prima clasa derivata) cât şi puterea (minus, rezultat al operatiei - din prima clasa derivata) sunt trimişi ca parametri). Verificati apelul metodelor considerand obiecte la 
+diferite ierarhii.
+
+#include <iostream>
+#include <cmath>
+class Baza
+{
+protected:
+        int m_X;
+        int m_Y;
+public:
+        void setX(int x)
+        {
+                m_X = x;
+        }
+        void setY(int y)
+        {
+                m_Y = y;
+        }
+        const int getX() const
+        {
+                return m_X;
+        }
+        const int getY() const
+        {
+                return m_Y;
+        }
+};
+class Operatii_deBaza : public Baza
+{
+protected:
+        int plus;
+        int minus;
+        int mul;
+        int div;
+public:
+        int adunare(int x, int y)
+        {
+                plus = x + y;
+                return plus;
+        }
+        int scadere(int x, int y)
+        {
+                minus = x - y;
+                return minus;
+        }
+        int inmultire(int x, int y)
+        {
+                mul = x * y;
+                return mul;
+        }
+        float impartire(float x, float  y)
+        {
+                div = x / y;
+                return div;
+        }
+};
+class Derivata : public Operatii_deBaza
+{
+protected:
+        float radical;
+        int putere;
+public:
+        float radical_(float x)
+        {
+                radical = sqrt(x);
+                return radical;
+        }
+        int putere_(int y)
+        {
+                putere = y * y;
+                return putere;
+        }
+};
+
+
+int main()
+{
+        std::cout << "introduce-ti valorea lui x pentru clasa de baza \n";
+        int x;
+        std::cin >> x;
+        std::cout << std::endl;
+        std::cout << "introduce-ti valorea lui y pentru clasa de baza \n";
+        int y;
+        std::cin >> y;
+        Baza obiect;
+        obiect.setX(x);
+        obiect.setY(y);
+    Operatii_deBaza Buffer;
+        Buffer.adunare(x, y);
+        return 0;
+}
+
+
+
+
+//Definiţi o clasă numita Triangle care are 3 atribute protected pentru laturi si o metoda care calculează perimetrul unui triunghi ale cărui laturi sunt citite de la tastatura (folosite de un constructor adecvat) şi apoi o clasă derivata in mod public din Triangle, Triangle_extended, care în plus, calculează şi aria triunghiului. Folosind obiecte din cele doua clase apelati metodele specifice. Verificati inainte de instantiere posibilitatea definirii unui triunghi.
+#include <iostream>
+#include <cmath>
+#define LOG(x)  std::cout<<x<<std::endl;
+class Triangle
+{
+protected:
+        int l1;
+        int l2;
+        int l3;
+public:
+        void setLaturi(int a, int b, int c)
+        {
+                l1 = a;
+                l2 = b;
+                l3 = c;
+        }
+        int perimetru()
+        {
+                return l1 + l2 + l3;
+        }
+};
+class Triangle_extended : public Triangle
+{
+public:
+        float arie()
+        {
+                int p = (l1 + l2 + l3) / 2;
+                return sqrt(p * (p - l1) * (p - l2) * (p - l3));
+        }
+};
+int main()
+{
+        int x, y, z;
+        LOG("Da-ti cele 3 valori pentru laturi : ");
+        std::cin >> x >> y >> z;
+        Triangle_extended ob2;
+        ob2.setLaturi(x, y, z);
+        system("pause");
+        std::cout << "Perimetrul este: \n";
+        std::cout << ob2.perimetru() << std::endl;
+        std::cout << "Aria este: \n";
+        std::cout << ob2.arie();
+        return 0;
+}
+
+
+
+
+//Adaugaţi în clasa derivată din exemplul anterior o metodă care calculează înalţimea triunghiului. Apelati 
+metoda folosind un obiect adecvat.
+
+#include <iostream>
+#include <cmath>
+#define LOG(x)  std::cout<<x<<std::endl;
+class Triangle
+{
+protected:
+        int l1;
+        int l2;
+        int l3;
+public:
+        void setLaturi(int a, int b, int c)
+        {
+                l1 = a;
+                l2 = b;
+                l3 = c;
+        }
+        int perimetru()
+        {
+                return l1 + l2 + l3;
+        }
+};
+class Triangle_extended : public Triangle
+{
+public:
+        float arie()
+        {
+                float p = (l1 + l2 + l3) / 2;
+                return sqrt(p * (p - l1) * (p - l2) * (p - l3));
+        }
+        float calc_inaltime()
+        {
+                float b;
+                if (l1 > l2 && l1 > l3)
+                        b = l1;
+                if (l2 > l1 && l2 > l3)
+                        b = l2;
+                if (l3 > l1 && l3 > l2)
+                        b = l3;
+                return (2 * arie() / b);
+        }
+};
+int main()
+{
+        int x, y, z;
+        LOG("Da-ti cele 3 valori pentru laturi : ");
+        std::cin >> x >> y >> z;
+        Triangle_extended ob2;
+        ob2.setLaturi(x, y, z);
+        system("pause");
+        LOG("Perimetrul este: \n");
+        std::cout << ob2.perimetru() << std::endl;
+        LOG("Aria este: \n");
+        std::cout << ob2.arie() << std::endl;
+        LOG("Inaltimea este: \n");
+        std::cout << ob2.calc_inaltime() << std::endl;
+        return 0;
+}
+
+
+
+
+//Adaugaţi în clasa derivată din exemplul anterior o metodă care calculează înalţimea triunghiului. Apelati 
+metoda folosind un obiect adecvat.
+#include <iostream>
+#include <cmath>
+#define LOG(x)  std::cout<<x<<std::endl;
+class Triangle
+{
+protected:
+        int l1;
+        int l2;
+        int l3;
+public:
+        void setLaturi(int a, int b, int c)
+        {
+                l1 = a;
+                l2 = b;
+                l3 = c;
+        }
+        int perimetru()
+        {
+                return l1 + l2 + l3;
+        }
+};
+class Triangle_extended : public Triangle
+{
+public:
+        float arie()
+        {
+                float p = (l1 + l2 + l3) / 2;
+                return sqrt(p * (p - l1) * (p - l2) * (p - l3));
+        }
+        float calc_inaltime()
+        {
+                float b;
+                if (l1 > l2 && l1 > l3)
+                        b = l1;
+                if (l2 > l1 && l2 > l3)
+                        b = l2;
+                if (l3 > l1 && l3 > l2)
+                        b = l3;
+                return (2 * arie() / b);
+        }
+};
+int main()
+{
+        int x, y, z;
+        LOG("Da-ti cele 3 valori pentru laturi : ");
+        std::cin >> x >> y >> z;
+        Triangle_extended ob2;
+        ob2.setLaturi(x, y, z);
+        system("pause");
+        LOG("Perimetrul este: \n");
+        std::cout << ob2.perimetru() << std::endl;
+        LOG("Aria este: \n");
+        std::cout << ob2.arie() << std::endl;
+        LOG("Inaltimea este: \n");
+        std::cout << ob2.calc_inaltime() << std::endl;
+        return 0;
+}
+
+
+
+
+
+//Definiţi o clasă numită Forme care defineste o figura geometrica cu un nume ca si atribut de tip pointer la 
+un sir de caractere. Derivati in mod public o clasa Cerc cu un constructor adecvat (nume, raza) si metode care 
+calculeaza aria si perimetrul cercului de raza r, valoare introdusa in main( ) de la tastatura. Similar 
+definiti o clasa Patrat si Dreptunghi care permit determinarea ariei si perimetrului obiectelor specifice. 
+Instantiati obiecte din clasele derivate si afisati aria si perimetrul obiectelor. Datele specifice vor fi 
+introduse de la tastatura.
+
+#include <iostream>
+#define LOG(x) std::cout<<x<<std::endl;
+#include <cstring>
+class Forme
+{
+protected:
+        char nume[20];
+public:
+        Forme()
+        {
+                strcpy_s(nume, "NECUNOSCUT");
+        }
+        Forme(const char* x)
+        {
+                strcpy_s(nume, x);
+        }
+        const char* getNume() const
+        {
+                return nume;
+        }
+
+};
+class Cerc : public Forme
+{
+protected:
+        double raza;
+        char n[20];
+public:
+        Cerc(double r, const char* n)
+        {
+                raza = r;
+                strcpy_s(this->n, n);
+        }
+        double arieCerc()
+        {
+                LOG("Aria cercului este : ");
+                return 3.14 * raza * raza;
+        }
+        double lungimeCerc()
+        {
+                LOG("Lungimea cercului este : ");
+                return 2 * 3.14 * raza;
+        }
+        ~Cerc()
+        {
+                LOG("Apelare destructor...\n");
+                raza = 0;
+        }
+};
+class Patrat : public Forme
+{
+protected:
+        double latura;
+        char nume[21];
+public:
+        Patrat(double l, const char* nume)
+        {
+                latura = l;
+                strcpy_s(this->nume, nume);
+        }
+        const double getLatura() const
+        {
+                return latura;
+        }
+        const char* getNume() const
+        {
+                return nume;
+        }
+        double perimetruPatrat()
+        {
+                LOG("Perimetrul patratului este: ");
+                return latura * 4;
+        }
+        double ariePatrat()
+        {
+                LOG("Aria patratului este :");
+                return latura * latura;
+        }
+        ~Patrat()
+        {
+                LOG("apelare destructor...\n");
+        }
+};
+class Dreptunghi : public Forme
+{
+protected:
+        double LaturaMica;
+        double LaturaMare;
+        char nume[20];
+public:
+        Dreptunghi(double l, double L, const char* nume)
+        {
+                LaturaMica = l;
+                LaturaMare = L;
+                strcpy_s(this->nume, nume);
+        }
+        double arieDreptunghi()
+        {
+                LOG("Aria dreptunghiului este : ");
+                return LaturaMica * LaturaMare;
+        }
+        double perimetruDreptunghi()
+        {
+                LOG("Perimetrul dreptunghiului este : ");
+                return 2 * LaturaMica + 2 * LaturaMare;
+        }
+        ~Dreptunghi()
+        {
+                LaturaMica = 0;
+                LaturaMare = 0;
+                LOG("Apelare destructor... \n");
+        }
+};
+int main()
+{
+
+        Forme obiect("Cerc");
+        LOG(obiect.getNume());
+        system("pause");
+
+        Forme obiect2;
+        LOG(obiect2.getNume());
+        LOG("");
+        Cerc cerc(5, "Cerc");
+        LOG(cerc.arieCerc());
+        LOG(cerc.lungimeCerc());
+        Patrat patrat(10, "Patrat");
+        LOG(patrat.ariePatrat());
+        LOG(patrat.perimetruPatrat());
+        Dreptunghi dreptunghi(12, 9, "Dreptunghi");
+        LOG(dreptunghi.arieDreptunghi());
+        LOG(dreptunghi.perimetruDreptunghi());
+        return 0;
+}
+
+
+
+
+
+//Considerați o clasa de baza Cerc definita printr-un atribut protected raza, care are un constructor cu 
+parametrii si o metoda care determina aria cercului. Considerați o alta clasa de baza Patrat cu un atribut
+protected latura similar clasei Cerc. Derivați un mod public clasa CercPatrat care are un constructor ce 
+apelează constructorii claselor de baza si o metoda care verifica daca pătratul de latura l poate fi inclus in 
+cercul de raza r. De asemenea clasa derivata determina si perimetrul celor doua figuri geometrice. Instanțiați 
+un obiect din clasa derivata (datele introduse de la tastatura), determinați aria si perimetrul cercului si al 
+pătratului. Afișați daca pătratul cu latura introdusa poate fi inclus in cercul de raza specificat.
+
+#include <iostream>
+#define LOG(x) std::cout<<x<<std::endl;
+class Cerc
+{
+protected:
+        double raza;
+public:
+        Cerc()
+        {
+                raza = 8;
+        }
+        Cerc(double r) : raza(r)
+        {}
+        double arieCerc()
+        {
+                LOG("Aria cercului este : ");
+                return 3.14 * raza * raza;
+        }
+};
+class Patrat
+{
+protected:
+        double latura;
+public:
+        Patrat()
+        {
+                latura = 10;
+        }
+        Patrat(double l) : latura(l)
+        {}
+        double ariePatrat()
+        {
+                LOG("Aria patratului este : ");
+                return latura * latura;
+        }
+};
+class CercPatrat : public Cerc, public Patrat
+{
+protected:
+        double m_Buffer = 0;
+public:
+        CercPatrat()
+        {
+                Cerc();
+                Patrat();
+        }
+        CercPatrat(Cerc cc, Patrat patr)
+        {
+
+        }
+
+        double perimetruCerc()
+        {
+                LOG("Perimetrul cercului este : ");
+                return 2 * 3.14 * raza;
+        }
+        double perimetruPatrat()
+        {
+                LOG("\nPerimetrul patratului este : ");
+                return latura * 4;
+        }
+
+};
+int main()
+{
+        Patrat patr;
+        Cerc cc;
+        CercPatrat obiect(cc, patr);
+        std::cout << obiect.perimetruCerc();
+        std::cout << obiect.perimetruPatrat();
+        return 0;
+}

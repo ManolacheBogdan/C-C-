@@ -1,0 +1,170 @@
+//Definiţi o funcţie macro MAX care determină şi afişează maximul dintre 2 si dintre 3 numere introduse de la tastatură.
+
+#define _CRT_SECURE_NO_WARNINGS_
+#include <iostream>
+using namespace std;
+#define MAX2(a,b) ((a)>(b)?(a):(b))
+#define MAX3(a,b,c) ((a)>(b) && (b)>(c)? (a):(b)>(c)? (b):(c))
+int main()
+{
+        int a, b, c;
+        cout << "Introduceti valorile:" << endl;
+        cout << "a=";
+        cin >> a;
+        cout << endl;
+        cout << "b=";
+        cin >> b;
+        cout << endl;
+        cout << "Maximul dintre cele 2 numere este:" << MAX2(a, b) << endl;
+        cout << "c=";
+        cin >> c;
+        cout << endl;
+        cout << "Maximul dintre cele 3 numere este:" << MAX3(a, b,c);
+        return 0;
+}
+
+
+
+
+
+
+//Definiţi o funcţie inline min( ) care determină şi afişează minimul dintre 2 si dintre 3 numere întregi introduse de la tastatură.
+
+#define _CRT_SECURE_NO_WARNINGS_
+#include <iostream>
+using namespace std;
+inline int MIN2(int a, int b);
+inline int MIN3(int a, int b, int c);
+
+int main()
+{
+        int a, b, c, min2, min3;
+        cout << "Introduceti valorile: " << endl;
+        cout << "a=";
+        cin >> a;
+        cout << endl;
+        cout << "b=";
+        cin >> b;
+        cout << endl;
+        min2 = MIN2(a, b);
+        cout << "Minimul dintre cele 2 valori este: " << min2 << endl;
+        cout << "c=";
+        cin >> c;
+        cout << endl;
+        min3 = MIN3(a, b, c);
+        cout << "Minimul dintre cele 3 valori este: " << min3;
+}
+
+inline int MIN2(int a, int b)
+{
+        if (a < b) return a;
+        return b;
+}
+inline int MIN3(int a, int b, int c)
+{
+        if ((a < b) && (b < c)) return a;
+        if ((b < a) && (b < c)) return b;
+        return c;
+}
+
+
+
+
+//Considerati o structura de date Student, care contine un camp de tip sir de caractere (maxim 30) pentru nume_prenume si un alt camp nota de tip int. Definiti un obiect de tip Student la care datele vor fi citite de la tastatura. Validati ca nume_prenume sa aiba cel putin 5 caractere iar nota sa fie >=5 si <=10. Afisati campurile obiectului in caz de introducere corecta.
+
+#define _CRT_SECURE_NO_WARNINGS_
+#include <assert.h>
+#include <string.h>
+#include <iostream>
+using namespace std;
+
+struct Student {
+        char nume_prenume[30];
+        int nota;
+}elev;
+int main()
+{
+        struct Student {};
+        cout << "Numele elevului este: ";
+        cin >> elev.nume_prenume;
+        cout << endl;
+        assert(strlen(elev.nume_prenume) >= 5);
+        cout << "Numele elevului este: " << elev.nume_prenume << endl;
+        cout << "Nota elevului este: ";
+        cin >> elev.nota;
+        cout << endl;
+        assert(elev.nota >= 5);
+        assert(elev.nota <= 10);
+        cout << "Nota elevului este: " << elev.nota;
+        return 0;
+
+}
+
+
+
+
+//Consideraţi o funcţie cu 3 parametrii toţi impliciţi (int, float, double) care returnează produsul acestor valori. Apelaţi funcţia considerând mai multe variante de apel concrete (fără parametri, 1 parametru, 2 parametri, 3 parametri).
+
+
+#define _CRT_SECURE_NO_WARNINGS_
+#include <stdio.h>
+double produs(int a = 5, float b = 7.5, double z = 17.8);
+int main()
+{
+        int a;
+        float b;
+        double c;
+        printf("\nIntroduceti un numar a de tip intreg:");
+        scanf_s("%d", &a);
+        printf("\nIntroduceti un numar b de tip float:");
+        scanf_s("%f", &b);
+        printf("\nIntroduceti un numar c de tip double:");
+        scanf_s("%lf", &c);
+        printf("\nProdusul valorilor implicite este: %.3lf", produs());
+        printf("\nProdusul cu 2 valoari implicite este: %.3lf", produs(a));
+        printf("\nProdusul cu o valoare implicita este: %.3lf", produs(a, b));
+        printf("\nProdusul fara valori implicite este: %.3lf", produs(a, b, c));
+        return 0;
+
+}
+double produs(int a, float b, double c)
+{
+        double p;
+        p = a * b * c;
+        return p;
+}
+
+
+
+
+//Scrieţi un program care face o codare simplă prin adaugarea la codul ASCII al caracterului, o valoare n=3, folosind macro funcții. Exemplu: ‘a’ devine în urma codării ‘d’.
+
+#define _CRT_SECURE_NO_WARNINGS_
+#include <stdio.h>
+#define adaugare(a,b) {a=a+b;}
+
+int main()
+{
+        char a;
+        printf("Introduceti un caracter:");
+        scanf_s("%c", &a);
+        adaugare(a, 3);
+        printf("\nNoul caracter este: %c", &a);
+        return 0;
+}
+
+
+
+
+//Să se scrie un program care afişează numele programului, data şi ora compilării şi numărul de linii pe care îl are acest program.
+
+#define _CRT_SECURE_NO_WARNINGS_
+#include <stdio.h>
+int main()
+{
+        printf("Numele programului este: %s", __FILE__);
+        printf("\nData compilarii este: %s", __DATE__);
+        printf("\nOra compilarii este: %s", __TIME__);
+        printf("\nNumarul de linii de cod este: %d", __LINE__);
+        return 0;
+}

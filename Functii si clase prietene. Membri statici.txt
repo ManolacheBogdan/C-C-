@@ -1,0 +1,226 @@
+//Construiţi o aplicaţie în care clasa OraCurenta are ca atribute private ora, minutele şi secundele şi metode publice de tip set/get pentru atributele clasei. Adaugaţi o functie friend clasei prin care să se poată copia conţinutul unui obiect OraCurenta dat ca si parametru, într-un alt obiect instanţă a aceleiaşi clase care va fi returnat de functie, ora fiind insa modificata la Greenwich Mean Time. Utilizati timpul curent al calculatorului.
+
+#define _CRT_SECURE_NO_WARNINGS
+#include <iostream>
+#include <cmath>
+#include <cstdlib>
+#include <cstring>
+#include <stdio.h>
+#include <time.h>
+using namespace std;
+class OraCurenta
+{
+private:
+    int ora;
+    int minute;
+    int secunde;
+public:
+    friend int copiere(OraCurenta); 
+    int set_ora(int x)
+    {
+        ora = x;
+        return 0;
+    }
+    int get_ora()
+    {
+        return ora;
+    }
+    int set_minute(int y)
+    {
+        minute = y;
+        return 0;
+    }
+    int get_minute()
+    {
+        return minute;
+    }
+    int set_secunde(int z)
+    {
+        secunde = z;
+        return 0;
+    }
+    int get_secunde()
+    {
+        return secunde;
+    }
+
+    friend int copiere(OraCurenta x, OraCurenta y)      
+    {
+        y.ora = x.ora;
+        y.minute = x.minute;
+        y.secunde = x.secunde;
+        cout << "Ora este : " << y.ora << endl;
+        cout << "Minutele : " << y.minute << endl;
+        cout << "Secundele : " << y.secunde << endl;
+        return 0;
+    }
+};
+
+int main()
+{
+    time_t rawtime;
+    struct tm* timeinfo;
+
+    time(&rawtime);
+    timeinfo = localtime(&rawtime);
+    printf("Timpul si data curenta sunt : %s", asctime(timeinfo));
+    cout << endl;
+    OraCurenta obj1, obj2;
+    obj1.set_ora(15);
+    obj1.set_minute(20);
+    obj1.set_secunde(5);
+    obj2.set_ora(17);
+    obj2.set_minute(55);
+    obj2.set_secunde(14);
+    copiere(obj1, obj2);
+    return 0;
+}
+
+
+
+
+//Scrieţi o aplicaţie C/C++ în care clasa Calculator are un atribut privat memorie_RAM (int) şi o funcție prietenă tehnician_service( ) care permite modificarea valorii acestui atribut. Functia friend va fi membra intr-o alta clasa, Placa_de_baza care are o componentă denumire_procesor (sir de caractere). Scrieţi codul necesar care permite funcției prietene tehnician_service( ) să modifice (schimbe) valoarea variabilei denumire_procesor si memorie _RAM.
+#define _CRT_SECURE_NO_WARNINGS
+#include <iostream>
+#include <cstring>
+using namespace std;
+class Calculator;
+class Placa_de_baza
+{
+    friend class Calculator;
+    char denumire_procesor[20];
+public:
+    friend void tehnician_service(Calculator x, Placa_de_baza y);
+
+
+};
+class Calculator
+{
+private:
+    int memorie_RAM;
+public:
+    friend void tehnician_service(Calculator x, Placa_de_baza y);
+
+
+};
+void tehnician_service(Calculator x, Placa_de_baza y)
+{
+    int X;
+    cout << "Introduce-mi memoria noua ! " << endl;
+    cin >> X;
+    x.memorie_RAM = X;
+    cout << x.memorie_RAM;
+    cout << endl;
+    char sir[100];
+    cout << "Introduce-mi numele proceorului : ";
+    cin >> sir;
+    strcpy(y.denumire_procesor, sir);
+    cout << "Numele procesorului este : ";
+    cout << sir;
+}
+int main()
+{
+    Calculator obj1;
+    Placa_de_baza obj2;
+    tehnician_service(obj1, obj2);
+
+    return 0;
+}
+
+
+
+
+
+//Definţi o clasă numită Repository care are două variabile private de tip întreg. Clasa mai conţine un constructor explicit vid si unul cu 2 parametri şi o metodă accesor care afişează valorile variabilelor din clasă. Scrieţi o clasă numită Mathemathics, friend cu prima clasă, care implementează operaţiile aritmetice elementare(+, -, *, / ) asupra variabilelor din prima clasa.Fiecare metoda primeşte ca parametru un obiect al clasei Repository.
+
+#define _CRT_SECURE_NO_WARNINGS
+#include <iostream>
+using namespace std;
+class Mathemathics;
+class Repository
+{
+private:
+    int a, b;
+public:
+    Repository(int x, int y)
+    {
+        a = x;
+        b = y;
+    }
+    int get_a()
+    {
+        return a;
+    }
+    int get_b()
+    {
+        return b;
+    }
+    ~Repository()
+    {
+        a = 0;
+        b = 0;
+    }
+
+};
+class Mathemathics
+{
+public:
+    friend class Repository;
+    void adunare(Repository obj1)
+    {
+
+        int S = 0;
+        S = obj1.get_a() + obj1.get_b();
+        cout << "Suma este: " << S;
+    }
+
+};
+int main()
+{
+    Repository(3, 4);
+    Mathemathics obj1;
+    obj1.adunare();
+    return 0;
+}
+
+
+
+
+//Scrieti o aplicatie C/C++ care defineste intr-o clasa variabila publica contor var_static de tip static intreg.Aceasta se va incrementa in cadrul constructorului. Dupa o serie de instantieri, sa se afiseze numarul de obiecte create (continutul variabilei var_static). 
+
+#include <iostream>
+#include <cstring>
+#include <cmath>
+using namespace std;
+class Exemplu
+{
+public:
+    int valoare;
+    static int var_static;
+    Exemplu(int v)
+    {
+        valoare = v;
+        cout << "Contorul var_static este : " << var_static;
+        cout << endl;
+        var_static++;
+    }
+
+    int getValoare()
+    {
+        return valoare;
+    }
+    static int getVar_static()
+    {
+        return var_static;
+    }
+
+};
+int Exemplu::var_static = 0;
+int main()
+{
+
+    Exemplu obj1(1);
+    Exemplu obj2(199);
+    Exemplu obj3(1000);
+    return 0;
+}

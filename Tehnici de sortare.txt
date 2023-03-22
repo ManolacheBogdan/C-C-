@@ -1,0 +1,439 @@
+//Implementaţi metoda bulelor (Bubble-Sort) care foloseşte un indicator flag şi optimizează ciclul interior. Se cere atât scrierea funcţiei, cât şi partea de program care face citirea şi afişarea şirului iniţial şi a celui ordonat.
+#define _CRT_SECURE_NO_WARNINGS_
+#include <iostream>
+using namespace std;
+void bubble_sort(int*p, int n);
+void citire(int* p, int n);
+void afisare(int* p, int n);
+void bubble_sort(int* p, int n)
+{
+        int i, j, temp, flag;
+        for (i = 0; i < n; i++)
+        {
+                flag = 0;
+                for (j = i; j < n - i; j++)
+                {
+                        if (p[j - 1] > p[j])
+                        {
+                                temp = p[j];
+                                p[j] = p[j - 1];
+                                p[j - 1] = temp;
+                                flag = 1;
+                        }
+                }
+                if (flag == 0) break;
+        }
+        
+}
+void citire(int* p, int n)
+{
+        int i;
+        for (i = 0; i < n; i++)
+        {
+                cout << "a[" << i + 1 << "]=";
+                cin >> *(p+i);
+        }
+}
+void afisare(int* p, int n)
+{
+        int i;
+        for (i = 0; i < n; i++)
+        {
+                cout << *(p+i)<<" ";
+        }
+}
+int main()
+{
+        int n;
+        int* p;
+        cout << "Introduceti dimensiunea sirului:";
+        cin >> n;
+        p = new int[n];
+        cout << endl<<"Introduceti sirul:"<<endl;
+        citire(p, n);
+        cout << "Sirul este:"<<endl;
+        afisare(p, n);
+        bubble_sort(p, n);
+        cout <<endl<< "Sirul dupa sortare este:"<<endl;
+        afisare(p, n);
+
+}
+
+
+
+
+
+//Modificaţi programul care exemplifică metoda de sortare rapidă (Quick-Sort) aşa încât să ordoneze şirul iniţial în ordine descrescătoare.
+
+#define _CRT_SECURE_NO_WARNINGS
+#include <iostream>
+using namespace std;
+void quickSort(int* p, int prim, int ultim);
+#define MAX 20
+int main()
+{
+    int n, a[MAX];
+    cout << "Enter number of elements: ";
+    cin >> n;
+    cout << "Enter the array elements:\n";
+    for (int i = 0; i < n; i++)
+    {
+        cout << "a[" << i << "]=" << endl;
+        cin >> a[i];
+    }
+    quickSort(a, 0, n - 1);
+    cout << "After Quick Sort the array is:\n";
+    for (int i = 0; i < n; i++)
+    {
+        cout << a[i] << " ";
+    }
+    return 0;
+}
+//Sortare prin metoda quickSort
+void quickSort(int* p, int prim, int ultim) {
+    int i, j, pivot, temp;
+    i = prim;
+    j = ultim;
+    pivot = p[ultim];
+    // partitionare
+    do {
+        while (p[i] > pivot)
+            i++;
+        while (p[j] < pivot)
+            j--;
+        if (i < j) {
+            temp = p[i];
+            p[i] = p[j];
+            p[j] = temp;
+        }//end if
+        if (i <= j) {
+            j--;
+            i++;
+        }//end if
+    } while (i < j);//end do-while
+// apel recursiv
+    if (prim < j)
+        quickSort(p, prim, j);
+    if (i < ultim)
+        quickSort(p, i, ultim);
+}//end quickSort\
+
+
+
+
+//Folositi functiile de biblioteca pentru sortari (qsort( )) pentru a aranja un sir de �nregistrari cu nume, prenume, cod numeric personal, data angajarii dupa doua c�mpuri la alegere (un exemplu ar fi: crescator dupa nume si descrescator dupa data angajarii).
+#define _CRT_SECURE_NO_WARNINGS
+#include <iostream>
+using namespace std;
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+struct data_an {
+        int an;
+        int luna;
+        int zi;
+};
+struct pers {
+        char nume[20];
+        char prenume[20];
+        char cnp[13];
+        struct data_an *d;
+};
+data_an* readDate(struct data_an* d);
+int sortare_nume(const void* a, const void* b);
+int sortare_data(const void* a, const void* b);
+int main()
+{
+        int n;
+        struct pers* p;
+        printf("Introduceti numarul de inregistrari: ");
+        scanf("%d", &n);
+        p = (struct pers*)malloc(n * sizeof(struct pers));
+        if (p == NULL)
+        {
+                printf("Eroare la alocare!");
+                return 1;
+        }
+        printf("\nIntroduceti datele angajatilor: ");
+        for (int i = 0; i < n; i++)
+        {
+                printf("\nNume: ");
+                scanf("%s", (p + i)->nume);
+                printf("\nPrenume: ");
+                scanf("%s", (p + i)->prenume);
+                printf("\nCNP: ");
+                scanf("%s", (p + i)->cnp);
+                printf("\nData angajarii: ");
+                (p + i)->d = readDate((p + i)->d);
+        }
+        qsort(p, n, sizeof(pers), sortare_nume);
+        printf("Angajatii sortati crescator dupa nume sunt: ");
+
+        for (int i = 0; i < n; i++)
+                cout << "\nNume: " << (p + i)->nume << "\tPrenume: " << (p + i)->prenume << "\tCNP: " << (p + i)->cnp << "\tData angajarii: " << (p + i)->d->an << " " << (p + i)->d->luna << " " << (p + i)->d->zi << endl;
+        printf("Angajatii sortati descrescator dupa data sunt: ");
+        qsort(p, n, sizeof(pers), sortare_data);
+        for (int i = 0; i < n; i++)
+                cout << "\nNume: " << (p + i)->nume << "\tPrenume: " << (p + i)->prenume << "\tCNP: " << (p + i)->cnp << "\tData angajarii: " << (p + i)->d->an << " " << (p + i)->d->luna << " " << (p + i)->d->zi << endl;
+
+
+}
+data_an* readDate(struct data_an* d)
+{
+        d = (new struct data_an);
+        cout << "\n\t\tZi: ";
+        cin >> d->zi;
+        cout << "\t\tLuna: ";
+        cin >> d->luna;
+        cout << "\t\tAn: ";
+        cin >> d->an;
+        return d;
+}
+int sortare_nume(const void* a, const void* b)
+{
+        char* v1 = (char*)a;
+        char* v2 = (char*)b;
+        int i = 0;
+        while (*(v1 + i) && *(v2 + i))
+        {
+                if (*(v1 + i) > *(v2 + i))
+                        return 1;
+                if (*(v1 + i) < *(v2 + i))
+                        return -1;
+        }
+        if (!(*(v1 + i)))
+                return -1;
+        if (!(*(v2 + i)))
+                return 1;
+        return 0;
+}
+int sortare_data(const void* a, const void* b)
+{
+        data_an d1 = *(data_an*)a;
+        data_an d2 = *(data_an*)b;
+        if (d1.an > d2.an)
+                return 1;
+        else
+                if (d1.an < d2.an)
+                        return -1;
+                else
+                {
+                        if (d1.luna > d2.luna)
+                                return 1;
+                        else
+                                if (d1.luna < d2.luna)
+                                        return -1;
+
+                                else
+                                {
+                                        if (d1.zi > d2.zi) return 1;
+                                        else if (d1.zi < d2.zi) return -1;
+                                }
+                }
+        return 0;
+}
+
+
+
+
+
+//Scrieţi o aplicaţie C/C++ in care plecând de la două tablouri (unidimensionale) de numere naturale să se obţină un al treilea tablou care să conţină toate elementele tablourilor sursă fără a se repeta, aranjate în ordine crescătoare.
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+#include <stdlib.h>
+int comparare(int* v1, int* v2);
+int main()
+{
+    int n, m, * s1, * s2, * s3, i = 0, j = 0, k = 0;
+    printf("Introduceti dimensiunea primului sir: ");
+    scanf("%d", &n);
+    printf("Introduceti dimensiunea celui de al doilea sir: ");
+    scanf("%d", &m);
+    s1 = (int*)malloc(n * sizeof(int));
+    s2 = (int*)malloc(m * sizeof(int));
+    s3 = (int*)malloc((n+m) * sizeof(int));
+    printf("\nPrimul sir este: ");
+    for (i = 0; i < n; i++)
+    {
+        printf("s1[%d]= ", i);
+        scanf("%d ", &s1[i]);
+    }
+    printf("\nAl doilea sir este: ");
+    for (j = 0; j < m; j++)
+    {
+        printf("s2[%d]= ", j);
+        scanf("%d ", &s2[j]);
+    }
+    qsort((int*)s1, n, sizeof(int), (int(*)(const void*, const void*))comparare);
+    qsort((int*)s2, m, sizeof(int), (int(*)(const void*, const void*))comparare);
+    while (i + j < m + n + 1)
+    {
+        if (s1[i] < s2[j])
+        {
+            if (i < n)
+                s3[k++] = s1[i++];
+            else
+                s3[k++] = s2[j++];
+        }
+        else
+        {
+            if(j<m)
+                s3[k++] = s2[j++];
+            else 
+                s3[k++] = s1[i++];
+        }
+        if (k - 1) 
+            if (s3[k - 1] == s3[k - 2])
+                 k--;
+    }
+    printf("\nAl treilea sir este:: ");
+    for (int i = 0; i < k - 1; i++)
+    {
+        printf("%d, ", s3[i]);
+    }
+}
+int comparare(int* v1, int* v2)
+{
+    return *v1 - *v2;
+}
+
+
+
+
+//Cititi de la tastatura m elemente de tip intreg intr-un tablou unidimensional si o valoare intreaga n<m. Impartiti tabloul citit in doua sub-tablori astfel:
+//a) primul subtablou va contine primele n elemente din tabloul initial
+//b) al doilea subtablou va contine restul elementelor din tablul initial.
+//Sa se realizeze urmatoarele operatii :
+//1. sa se ordoneze crescator cele doua subtablouri
+//2. sa se sorteze tabloul initial, prin interclasarea celor doua subtablori ordonate. (merge - sort)
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+#include <stdlib.h>
+int comparare(int* a, int* b);
+int main()
+{
+        int m, * s1, * s2, * s;
+        int n = 0;
+        printf("Introduceti numarul de elemente ale sirului initial: ");
+        scanf("%d", &m);
+        s = new int[m];
+        printf("\nIntroduceti sirul: ");
+        for (int i = 0; i < m; i++)
+        {
+                printf("s[%d]: ", i + 1);
+                scanf("%d", &s[i]);
+        }
+        while (n!=0)
+        {
+                printf("Introduceti un numar n mai mic decat %d:", m);
+                scanf("%d", &n);
+                if (n > m)
+                {
+                        printf("Numarul introdus nu este mai mic decat %d!", m);
+                        n = 0;
+                }
+        }
+        s1 = new int[n];
+        s2 = new int[m - n];
+        printf("\nPrimul subsir este: ");
+        for (int i = 0; i < n; i++)
+        {
+                s1[i] = s[i];
+                printf("%d ", s1[i]);
+        }
+        printf("\nAl doilea subsir este: ");
+        for (int i = m - n, j = 0; i < m; i++)
+        {
+                s2[j] = s[i];
+                printf("%d ", s2[j]);
+        }
+        int i = 0, j = 0, k = 0;
+        qsort((int*)s1, n, sizeof(int), (int (*) (const void*, const void*))comparare);
+        qsort((int*)s2, m - n, sizeof(int), (int (*) (const void*, const void*)) comparare);
+        while (i + j < m + 1)
+        {
+                if (s1[i] < s2[j])
+                {
+                        if (i < n) 
+                                s[k++] = s1[i++];
+                        else s[k++] = s2[j++];
+                }
+                else
+                {
+                        if (j < m - n) 
+                                s[k++] = s2[j++];
+                        else s[k++] = s1[i++];
+                }
+                if (k - 1) 
+                        if (s[k - 1] == s[k - 2]) k--;
+        }
+        printf("\nSirul interclasat este: ");
+        for (int i = 0; i < k - 1; i++)
+        {
+                printf("%d ", s[i]);
+        }
+        return 0;
+}
+int comparare(int* a, int* b)
+{
+        return *a - *b;
+}
+
+
+
+
+
+//Generati in mod aleatoriu un tablou de maxim 200 valori intregi, valori nu mai mari de 100. Determinati si afisati valoarea minima, mediana si maxima generata, sortand elementele printr - o metoda la alegere.Determinati valoarea medie si comparati aceasta valoare cu cea mediana(afisati diferenta).Verificati daca valoarea medie este in tabloul initial generat.
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+#include<stdlib.h>
+#include <iostream>
+#include <time.h>
+using namespace std;
+#define DIM 100
+
+int comparare(int*, int*);
+int main() {
+    int n, min, med, max, s=0;
+    int v[DIM];
+    int* p;
+    printf("Introduceti numarul de elemente: ");
+    scanf("%d", &n);
+    srand(time(NULL));
+    for (int i = 0; i < n; i++) 
+    {
+        v[i] = (rand() % 101);
+    }
+    qsort(v, n, sizeof(int), (int(*)(const void*, const void*))comparare);
+    printf("\nTabloul sortat este: ");
+    for (int i = 0; i < n; i++) 
+    {
+        printf("v[%d]= %d", i, v[i]);
+        s += v[i];
+
+    }
+    
+    min = v[0];
+    max = v[n - 1];
+    med = v[n / 2];
+    cout << "Minimul sirului este:" << min << endl;
+    cout << "Maximul sirului este:" << max << endl;
+    cout << "Medianul sirului este:" << med << endl;
+    int avg = s / n;
+    cout << "Diferenta dintre medianul sirului si media valorilor este:" << avg - med;
+    p = (int*)bsearch(&avg, v, n, sizeof(int), (int(*)(const void*, const void*))comparare);
+    if (p)
+        cout << "\n Valoare medie exista in sir";
+    else {
+        cout << "\n Valoarea medie nu se afla in sir";
+    }
+    return 0;
+}
+
+int comparare(int* a, int* b)
+{
+    return *a - *b;
+}
+
+
+

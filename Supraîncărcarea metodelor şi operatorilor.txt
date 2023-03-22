@@ -1,0 +1,430 @@
+//Să se supraîncarce operatorul [ ] astfel încât, folosit fiind asupra unor obiecte din clasa Departament, ce contine un tablou de obiecte de tip Angajat (clasa Angajat contine variabilele nume (şir de caractere) şi salariu (double)), să returneze toată informaţia legată de angajatul al cărui număr de ordine este trimis ca parametru.
+
+#define _CRT_SECURE_NO_WARNINGS
+#include <iostream>
+using namespace std;
+#include <cstring>
+class Departament;
+class Angajat
+{
+private:
+    char nume[20];
+    float salar;
+public:
+    Angajat(char* inume = "NECUNOSCUT", float is = 0.0)
+    {
+        strcpy(nume, inume);
+        salar = is;
+    }
+    friend class Departament;
+    void set_angajat(float is, char* inume)
+    {
+        strcpy(nume, inume);
+        salar = is;
+    }
+};
+class Departament
+{
+    int nr_angajati;
+    Angajat angajati[20];
+public:
+    Departament(int inr = 0)
+    {
+        nr_angajati = inr;
+    }
+    void set_departament()
+    {
+        char inume[20];
+        float is;
+        for (int i = 0; i < nr_angajati; i++)
+        {
+            cout << "\nIntroduceti datele pentru angajatul " << i + 1 << ":\n";
+            cout << "\nNumele si salariul: ";
+            cin >> inume;
+            cin >> is;
+            angajati[i].set_angajat(is, inume);
+        }
+    }
+    void operator [](int i)
+    {
+        cout << "\nNumele: " << angajati[i - 1].nume;
+
+        cout << "\nSalariul: " << angajati[i - 1].salar << " lei" << endl;
+    }
+};
+int main()
+{
+    cout << "!!!" << endl;
+    int nr;
+    cout << "Introduceti numarul de angajati: ";
+    cin >> nr;
+    Departament dep(nr);
+    dep.set_departament();
+    cout << "Ati introdus cu succes numarul de angajati !!!" << endl;
+    cout << "\nIntroduceti numarul de ordine pentru vizualizarea datelor: ";
+    cin >> nr;
+    dep[nr];
+    cin.get();
+}
+
+
+
+
+//Să se supraîncarce operatorii new şi delete într-una din clasele cu care s-a lucrat anterior, în vederea alocarii şi eliberarii de memorie pentru un obiect din clasa respectivă.
+
+#include<iostream>
+#include <conio.h>
+#include <malloc.h>
+using namespace std;
+class Complex
+{
+    double re, im;
+public:
+    Complex(int, int);
+    void Afisare(void);
+    void* operator new(size_t dim);
+    void operator delete(void* p);
+};
+
+Complex::Complex(int r = 1, int i = 1)
+{
+    re = r;
+    im = i;
+}
+void Complex::Afisare(void)
+{
+    cout << "\nPartea reala: " << re;
+    cout << "\nPartea imaginara: " << im << endl;
+}
+void* Complex::operator new(size_t dim)
+{
+    void* p = malloc(dim);
+    if (p == 0)
+        cout << "\nAlocare nereusita!!!";
+    return p;
+}
+void Complex::operator delete(void* p)
+{
+    if (p)
+        free(p);
+
+}
+int main()
+{
+    Complex* p;
+    p = new Complex;
+    p->Afisare();
+    delete p;
+    Complex* p1;
+    p1 = new Complex(4, 6);
+    p1->Afisare();
+    delete p1;
+    _getch();
+}
+
+
+
+
+//Să se scrie programul care utilizează o clasă numită Calculator şi care are în componenţa sa metodele publice supraincarcate:
+//-int calcul(int x) care returnează pătratul valorii primite;
+//-int calcul(int x, int y) care returnează produsul celor două valori primite;
+//-double calcul(int x, int y, int z) care returnează rezultatul înlocuirii în formula f(x, y, z) = (x - y)(x + z) / 2. a valorilor primite;
+
+#include <iostream>
+#include <cstdlib>
+#include <cmath>
+using namespace std;
+class Calculator
+{
+private:
+    int m_X;
+
+public:
+    Calculator()
+    {
+        m_X = 0;
+    }
+    Calculator(int x)
+    {
+        m_X = x;
+    }
+    int setX(int a)
+    {
+        m_X = a;
+        return 0;
+    }
+
+    const int getX()const
+    {
+        return m_X;
+    }
+    Calculator operator^ (const Calculator& other) const
+    {
+        return Calculator(m_X ^ other.m_X);
+    }
+    Calculator operator* (const Calculator& other)  const
+    {
+        return Calculator(m_X * other.m_X);
+    }
+    Calculator operator+ (const Calculator& other)  const
+    {
+        return Calculator(m_X + other.m_X);
+    }
+    Calculator operator- (const Calculator& other)  const
+    {
+        return Calculator(m_X - other.m_X);
+    }
+    Calculator operator/ (const Calculator& other) const
+    {
+        return Calculator(m_X / other.m_X);
+    }
+    int calcul_Patrat(Calculator numar)
+    {
+        Calculator rezultat;
+        rezultat = numar * numar;
+        cout << rezultat.getX();
+        return 0;
+    }
+    int calcul(Calculator obiect1, Calculator obiect2)
+    {
+        Calculator obiect3;
+        obiect3 = obiect1 * obiect2;
+        cout << obiect3.getX();
+        return 0;
+    }
+    double calcul_Formula(Calculator ob1, Calculator ob2, Calculator ob3)
+    {
+        Calculator obiect4;
+        Calculator doi(2);
+        obiect4 = ((ob1 - ob2) * (ob1 + ob3) - 1) / doi;
+        cout << obiect4.getX();
+        return 0;
+    }
+
+};
+int main()
+{
+    cout << "CALCULATOR!" << endl;
+    cout << "Introduceti primul numar pentru produs ! : " << endl;
+    int N;
+    cin >> N;
+    cout << "Introduceti al doilea numar pentru produs ! : " << endl;
+    int M;
+    cin >> M;
+    Calculator numar(N);
+    Calculator numar1(M);
+    Calculator rezultat;
+    cout << "Produsul celor doua numere este : " << endl;
+    rezultat.calcul(numar, numar1);
+    cout << endl;
+    cout << "Folosim formula ""f(x,y,z) = (x-y)(x+z)/2"", introduceti valorile lui x , y , z ! : " << endl;
+    int x, y, z;
+    cin >> x >> y >> z;
+    Calculator box(x);
+    Calculator box2(y);
+    Calculator box3(z);
+    Calculator box_rez;
+    cout << "Rezultatul este : " << endl;
+    box_rez.calcul_Formula(box, box2, box3);
+    cout << endl;
+    cout << "Intrdouceti valoarea pentru care doriti sa afisati patratul : " << endl;
+    int p;
+    cin >> p;
+    Calculator numarx;
+    numarx.setX(p);
+    cout << "Patratul este : " << endl;
+    Calculator rez;
+    rez.calcul_Patrat(numarx);
+    cout << endl;
+    return 0;
+}
+
+
+
+
+
+//Să se implementeze clasa Complex care supraîncarcă operatorii aritmetici cu scopul de a efectua adunări, scăderi, inmulţiri şi împărţiri de numere complexe (folosind metode membre (+, -) și funcții friend (*, /)).
+//Observaţie: numerele complexe vor fi definite ca având o parte reală şi una imaginară, ambii coeficienţi fiind reprezentați prin numere reale.
+
+#include <iostream>
+using namespace std;
+class Complex
+{
+private:
+    float Im;
+    float Re;
+public:
+    Complex()
+    {
+        Im = 1;
+        Re = 1;
+    }
+    Complex(float  x, float y) : Im(x), Re(y)
+    {}
+    int setIm(float  eps)
+    {
+        Im = eps;
+        return 0;
+    }
+    float  setRe(float ptr)
+    {
+        Re = ptr;
+        return 0;
+    }
+    float  getRe() const
+    {
+        return Re;
+    }
+    float  getIm() const
+    {
+        return Im;
+    }
+    Complex operator+ ( Complex& other) 
+    {
+        return Complex(Re + other.Re, Im + other.Im);
+    }
+    Complex operator- ( Complex& other) 
+    {
+        return Complex(Re - other.Re, Im - other.Im);
+    }
+    Complex operator *( Complex& other) 
+    {
+        return Complex(Re * other.Re, Im * other.Im);
+    }
+    Complex operator /( Complex& other) 
+    {
+        return Complex(Re / other.Re, Im / other.Im);
+    }
+    void adunare(Complex n1, Complex n2)
+    {
+        Complex rez;
+        rez = n1 + n2;
+        cout << "Partea reala este : " << endl;
+        cout << rez.getRe();
+        cout << endl;
+        cout << "\n Partea imaginara este : " << endl;
+        cout << rez.getIm();
+    }
+    void scadere(Complex n1, Complex n2)
+    {
+        Complex rez;
+        rez = n1 - n2;
+        cout << "Partea reala este : " << endl;
+        cout << rez.getRe();
+        cout << endl;
+        cout << "\n Partea imaginara este : " << endl;
+        cout << rez.getIm();
+    }
+    friend void inmultire(Complex n1, Complex n2)
+    {
+        Complex rez;
+        rez = n1 * n2;
+        cout << "Partea reala este : " << endl;
+        cout << rez.getRe();
+        cout << endl;
+        cout << "\n Partea imaginara este : " << endl;
+        cout << rez.getIm();
+    }
+    friend void impartire(Complex xx, Complex yy)
+    {
+        Complex rez;
+        rez = xx / yy;
+        cout << "Partea reala este : " << endl;
+        cout << rez.getRe();
+        cout << endl;
+        cout << "\n Partea imaginara este : " << endl;
+        cout << rez.getIm();
+    }
+};
+
+int main()
+{
+    Complex numar(3, 4);
+    Complex numar1(5, 6);
+    impartire(numar, numar1);
+    cout << endl;
+    inmultire(numar, numar1);
+    cout << endl;
+    cout << "Afisam suma celor doua numere : " << endl;
+    Complex rez;
+    rez.adunare(numar, numar1);
+    cout << endl << "Afisam diferenta celor doua numere : " << endl;
+    rez.scadere(numar, numar1);
+    return 0;
+}
+
+
+
+
+//Definţi o clasă numită Number care are o variabilă private de tip double. Clasa mai conţine un constructor explicit vid și unul cu un parametru şi o metodă accesor care afişează valoarea variabilei din clasă. Scrieţi o clasă numită Mathemathics, care supraîncarcă operatorii specifici operațiilor aritmetice elementare (+, -, *, /). Clasa are ca atribut un obiect instanțiat din prima clasa. Operațiile artimetice se efectuează asupra datelor obținute din obiectul de tip Number.
+
+#define _CRT_DEFINE_NO_WARNINGS
+#include <iostream>
+#include <cstdlib>
+#include <cmath>
+using namespace std;
+class Mathemathics;
+class Number
+{
+private:
+    double m_X;
+public:
+    friend class Mathemathics;
+    Number()
+    {
+        m_X = 1;
+    }
+    Number(int x) :m_X(x)
+    {}
+
+    int getX() const
+    {
+        return m_X;
+    }
+
+};
+class Mathemathics
+{
+private:
+    float mBuffer;
+
+public:
+    friend class Number;
+    Number x;
+    Mathemathics()
+    {
+        mBuffer = 0;
+    }
+    Mathemathics(int x) :mBuffer(x)
+    {}
+    friend operator+ ( Mathemathics& other) 
+    {
+        return Mathemathics(mBuffer + other.mBuffer);
+    }
+     Mathemathics operator- (Mathemathics& other)
+        {
+            return Mathemathics(mBuffer - other.mBuffer);
+        }
+     Mathemathics operator* (Mathemathics& other) 
+        {
+            return Mathemathics(mBuffer * other.mBuffer);
+        }
+      Mathemathics operator/ (Mathemathics& other)
+        {
+            return Mathemathics(mBuffer / other.mBuffer);
+        }
+       Mathemathics operator= (Mathemathics& other)
+        {
+            return Mathemathics(other.mBuffer);
+        }
+};
+
+int main()
+{
+    Number x(11);
+    //Number y(22);
+    Number rez;
+    Mathemathics y;
+    
+    return 0;
+}
